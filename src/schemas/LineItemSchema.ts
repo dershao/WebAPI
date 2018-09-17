@@ -4,9 +4,10 @@ import {
     GraphQLString, 
     GraphQLList, 
     GraphQLNonNull,
+    GraphQLFloat,
 } from "graphql";
 
-const LineItem = new GraphQLObjectType({
+const LineItem: GraphQLObjectType = new GraphQLObjectType({
     name: "Line Item",
     description:  "Shop contains many line items",
     fields: () => {
@@ -17,16 +18,28 @@ const LineItem = new GraphQLObjectType({
                     return item.id;
                 }
             },
-            name: {
-                type: new GraphQLNonNull(GraphQLString),
+            product_id: {
+                type: new GraphQLNonNull(GraphQLInt),
+                resolve(item) {
+                    return item.product_id;
+                }
+            },
+            order_id: {
+                type: new GraphQLNonNull(GraphQLInt),
+                resolve(item) {
+                    return item.order_id;
+                }
+            },
+            quantity: {
+                type: new GraphQLNonNull(GraphQLInt),
                 resolve(item) {
                     return item.name;
                 }
             },
-            value: {
-                type: new GraphQLNonNull(GraphQLInt),
+            price: {
+                type: new GraphQLNonNull(GraphQLFloat),
                 resolve(item) {
-                    return item.value;
+                    return item.price;
                 }  
             },
         }

@@ -7,7 +7,7 @@ import {
 } from "graphql";
 import LineItem from "./LineItemSchema";
 
-const Order = new GraphQLObjectType({
+const Order: GraphQLObjectType = new GraphQLObjectType({
     name: "Order",
     description:  "Shop contains many orders",
     fields: () => {
@@ -18,23 +18,17 @@ const Order = new GraphQLObjectType({
                     return order.id;
                 }
             },
-            name: {
-                type: new GraphQLNonNull(GraphQLString),
-                resolve(order) {
-                    return order.name;
-                }
-            },
-            value: {
+            shop_id: {
                 type: new GraphQLNonNull(GraphQLInt),
                 resolve(order) {
-                    return order.value;
-                }  
-            },
-            lineItems: {
-                type: new GraphQLList(LineItem),
-                resolve(order) {
-                    return order.getItems();
+                    return order.shop_id;
                 }
+            },
+            price: {
+                type: new GraphQLNonNull(GraphQLInt),
+                resolve(order) {
+                    return order.price;
+                }  
             }
         }
     }

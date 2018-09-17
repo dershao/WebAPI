@@ -8,7 +8,7 @@ import {
 import Order from "./OrderSchema";
 import Product from "./ProductSchema";
 
-const Shop = new GraphQLObjectType({
+const Shop: GraphQLObjectType = new GraphQLObjectType({
     name: "Shop",
     description:  "A shop",
     fields: () => {
@@ -23,18 +23,6 @@ const Shop = new GraphQLObjectType({
                 type: new GraphQLNonNull(GraphQLString),
                 resolve(shop) {
                     return shop.name;
-                }
-            },
-            products: {
-                type: new GraphQLList(Order),
-                resolve(shop) {
-                    return shop.getOrders();
-                }
-            },
-            orders: {
-                type: new GraphQLList(Product),
-                resolve(shop) {
-                    return shop.getProducts();
                 }
             }
         }

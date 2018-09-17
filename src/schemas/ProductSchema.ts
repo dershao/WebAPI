@@ -3,7 +3,8 @@ import {
     GraphQLInt, 
     GraphQLString, 
     GraphQLList, 
-    GraphQLNonNull 
+    GraphQLNonNull,
+    GraphQLFloat 
 } from "graphql";
 import LineItem from "./LineItemSchema"; 
 
@@ -18,16 +19,22 @@ const Product: GraphQLObjectType = new GraphQLObjectType({
                     return product.id;
                 }
             },
+            shop_id: {
+                type: new GraphQLNonNull(GraphQLInt),
+                resolve(product) {
+                    return product.shop_id;
+                }
+            },
             name: {
                 type: new GraphQLNonNull(GraphQLString),
                 resolve(product) {
                     return product.name;
                 }
             },
-            items: {
-                type: new GraphQLList(LineItem),
+            price: {
+                type: new GraphQLNonNull(GraphQLFloat),
                 resolve(product) {
-                    return product.getItems();
+                    return product.price;
                 }
             }
         }
