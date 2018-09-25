@@ -7,7 +7,7 @@ import {
 
 const LineItem: GraphQLObjectType = new GraphQLObjectType({
     name: "LineItem",
-    description:  "Shop contains many line items",
+    description:  "Order contains many line items",
     fields: () => {
         return {
             id: {

@@ -15,7 +15,10 @@ const Query: GraphQLObjectType = new GraphQLObjectType({
             shop: {
                 type: new GraphQLList(ShopGraphQLType),
                 args: {
-
+                    id: {
+                        type: GraphQLInt,
+                        description: "Find a shop by id"
+                    }
                 },
                 resolve(root, args) {
                     return Db.models.shop.findAll({where: args});
@@ -24,8 +27,13 @@ const Query: GraphQLObjectType = new GraphQLObjectType({
             product: {
                 type: new GraphQLList(ProductGraphQLType),
                 args: {
-                    shopId: {
-                        type: GraphQLInt
+                    id: {
+                        type: GraphQLInt,
+                        description: "Find a product by id"
+                    },
+                    shop_id: {
+                        type: new GraphQLList(GraphQLInt),
+                        description: "Specify products from the following shop ids"
                     }
                 },
                 resolve(root, args) {
@@ -35,7 +43,14 @@ const Query: GraphQLObjectType = new GraphQLObjectType({
             order: {
                 type: new GraphQLList(OrderGraphQLType),
                 args: {
-
+                    id: {
+                        type: GraphQLInt,
+                        description: "Find an order by id"
+                    },
+                    shop_id: {
+                        type: new GraphQLList(GraphQLInt),
+                        description: "Specify orders from the following shop ids"
+                    }
                 },
                 resolve(root, args) {
                     return Db.models.order.findAll({where: args});
@@ -44,7 +59,18 @@ const Query: GraphQLObjectType = new GraphQLObjectType({
             lineItem: {
                 type: new GraphQLList(LineItemGraphQLType),
                 args: {
-
+                    id: {
+                        type: GraphQLInt,
+                        description: "Find a line item by id"
+                    },
+                    product_id: {
+                        type: new GraphQLList(GraphQLInt),
+                        description: "Specify line items of the following products"
+                    },
+                    order_id: {
+                        type: new GraphQLList(GraphQLInt),
+                        description: "Specify line items of the following orders"
+                    }
                 },
                 resolve(root, args) {
                     return Db.models.lineItem.findAll({where: args});
@@ -66,6 +92,7 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
 
 const graphQLSchema: GraphQLSchema = new GraphQLSchema({
     query: Query,
+    //mutation: Mutation
 });
 
 export default graphQLSchema;
