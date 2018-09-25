@@ -1,14 +1,12 @@
 import {
     GraphQLObjectType, 
-    GraphQLInt, 
-    GraphQLString, 
-    GraphQLList, 
+    GraphQLInt,
     GraphQLNonNull,
     GraphQLFloat,
 } from "graphql";
 
 const LineItem: GraphQLObjectType = new GraphQLObjectType({
-    name: "Line Item",
+    name: "LineItem",
     description:  "Shop contains many line items",
     fields: () => {
         return {

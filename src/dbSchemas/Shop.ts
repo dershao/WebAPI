@@ -2,15 +2,12 @@ import * as Sequelize from "sequelize";
 
 const ShopSchema: Sequelize.DefineAttributes = {
     id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
     },
     name: {
         type: Sequelize.STRING,
         primaryKey: true,
-        allowNull: false,
     }
 };
 

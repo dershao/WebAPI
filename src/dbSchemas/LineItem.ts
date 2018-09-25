@@ -4,8 +4,6 @@ const LineItemSchema: Sequelize.DefineAttributes = {
     id: {
         type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
     },
     product_id: {
         type: Sequelize.INTEGER,

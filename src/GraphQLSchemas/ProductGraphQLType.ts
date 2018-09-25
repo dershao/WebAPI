@@ -1,12 +1,10 @@
 import { 
     GraphQLObjectType, 
     GraphQLInt, 
-    GraphQLString, 
-    GraphQLList, 
+    GraphQLString,
     GraphQLNonNull,
     GraphQLFloat 
 } from "graphql";
-import LineItem from "./LineItemSchema"; 
 
 const Product: GraphQLObjectType = new GraphQLObjectType({
     name: "Product",

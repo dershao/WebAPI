@@ -1,11 +1,8 @@
 import {
     GraphQLObjectType, 
-    GraphQLInt, 
-    GraphQLString, 
-    GraphQLList, 
+    GraphQLInt,
     GraphQLNonNull,
 } from "graphql";
-import LineItem from "./LineItemSchema";
 
 const Order: GraphQLObjectType = new GraphQLObjectType({
     name: "Order",

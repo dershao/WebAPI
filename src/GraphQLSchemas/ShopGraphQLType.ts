@@ -1,12 +1,9 @@
 import {
     GraphQLObjectType, 
     GraphQLInt, 
-    GraphQLString, 
-    GraphQLList, 
+    GraphQLString,
     GraphQLNonNull,
 } from "graphql";
-import Order from "./OrderSchema";
-import Product from "./ProductSchema";
 
 const Shop: GraphQLObjectType = new GraphQLObjectType({
     name: "Shop",
