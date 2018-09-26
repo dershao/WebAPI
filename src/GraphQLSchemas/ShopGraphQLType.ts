@@ -3,7 +3,9 @@ import {
     GraphQLInt, 
     GraphQLString,
     GraphQLNonNull,
+    GraphQLList
 } from "graphql";
+import Product from "./ProductGraphQLType";
 
 const Shop: GraphQLObjectType = new GraphQLObjectType({
     name: "Shop",
@@ -21,8 +23,15 @@ const Shop: GraphQLObjectType = new GraphQLObjectType({
                 resolve(shop) {
                     return shop.name;
                 }
+            },
+            products: {
+                type: new GraphQLList(Product),
+                resolve(shop) {
+
+                    return shop.getProducts();
+                }
             }
-        }
+        };
     }
 });
 

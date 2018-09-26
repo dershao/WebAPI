@@ -16,16 +16,16 @@ const LineItem: GraphQLObjectType = new GraphQLObjectType({
                     return item.id;
                 }
             },
-            product_id: {
+            productId: {
                 type: new GraphQLNonNull(GraphQLInt),
                 resolve(item) {
-                    return item.product_id;
+                    return item.productId;
                 }
             },
-            order_id: {
+            orderId: {
                 type: new GraphQLNonNull(GraphQLInt),
                 resolve(item) {
-                    return item.order_id;
+                    return item.orderId;
                 }
             },
             quantity: {
@@ -40,7 +40,7 @@ const LineItem: GraphQLObjectType = new GraphQLObjectType({
                     return item.price;
                 }  
             },
-        }
+        };
     }
 });
 

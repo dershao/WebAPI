@@ -9,7 +9,7 @@ const ProductSchema: Sequelize.DefineAttributes = {
         type: Sequelize.STRING,
         primaryKey: true,
     },
-    shop_id: {
+    shopId: {
         type: Sequelize.INTEGER,
         allowNull: false
     },

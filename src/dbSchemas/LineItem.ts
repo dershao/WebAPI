@@ -5,11 +5,11 @@ const LineItemSchema: Sequelize.DefineAttributes = {
         type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
     },
-    product_id: {
+    productId: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    order_id: {
+    orderId: {
         type: Sequelize.INTEGER,
         allowNull: false
     },

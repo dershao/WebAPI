@@ -5,7 +5,7 @@ const OrderSchema: Sequelize.DefineAttributes = {
         type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
     },
-    shop_id: {
+    shopId: {
         type: Sequelize.INTEGER,
         allowNull: false
     },

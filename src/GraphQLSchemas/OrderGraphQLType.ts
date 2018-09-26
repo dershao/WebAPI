@@ -15,10 +15,10 @@ const Order: GraphQLObjectType = new GraphQLObjectType({
                     return order.id;
                 }
             },
-            shop_id: {
+            shopId: {
                 type: new GraphQLNonNull(GraphQLInt),
                 resolve(order) {
-                    return order.shop_id;
+                    return order.shopId;
                 }
             },
             price: {
@@ -27,7 +27,7 @@ const Order: GraphQLObjectType = new GraphQLObjectType({
                     return order.price;
                 }  
             }
-        }
+        };
     }
 });
 
