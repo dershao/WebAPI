@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLInt, GraphQLNonNull, GraphQLString, GraphQLFloat, GraphQLBoolean } from "graphql";
 import ShopGraphQLType from "./ShopGraphQLType";
-import ProductGraphQLType from "./ProductGraphQLType";
+import ProductGraphQLType, {default as Product} from "./ProductGraphQLType";
 import OrderGraphQLType from "./OrderGraphQLType";
 import LineItemGraphQLType from "./LineItemGraphQLType";
 import {DbConnect} from "../config/DbConnect";
@@ -97,10 +97,6 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                 type: ShopGraphQLType,
                 description: "Create a new shop",
                 args: {
-                    id: {
-                        type: GraphQLInt,
-                        description:  "ID to identify shop"
-                    },
                     name: {
                         type: new GraphQLNonNull(GraphQLString),
                         description: "Name of the shop"
@@ -108,7 +104,6 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                 },
                 resolve: (root, args) => {
                     return dbSchemas.shop.create({
-                        id: args.id,
                         name: args.name
                     });
                 }
@@ -117,18 +112,28 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                 type: GraphQLBoolean,
                 description: "Delete a shop",
                 args: {
-                    name: {
-                        type: new GraphQLNonNull(GraphQLString),
-                        description: "Name of the shop to delete"
-                    }
+                    id: {
+                        type: new GraphQLNonNull(GraphQLInt),
+                        description: "ID identifying a specified shop",
+                    },
                 },
                 resolve: (root, args) => {
+
                     Db.models.shop.destroy({where: args})
                         .then(() => {
-                            return true;
+                            //delete all products
+                            return Db.models.product.destroy({where: args});
                         })
-                        .catch((err) => {
-                            return false;
+                        .then(() => {
+                            //delete all orders
+                            return Db.models.order.destroy({where: args});
+                        })
+                        .then(() => {
+                            //delete all line items
+                            return Db.models.lineItem.destroy({where: args});
+                        })
+                        .catch((err: Error) => {
+                            throw err;
                         });
                 }
             },
@@ -161,19 +166,86 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                 type: GraphQLBoolean,
                 description: "Delete a product",
                 args: {
-                    name: {
-                        type: new GraphQLNonNull(GraphQLString),
-                        description: "Product name"
-                    },
+                    id: {
+                        type: new GraphQLNonNull(GraphQLInt),
+                        description: "ID identifying product"
+                    }
                 },
                 resolve: (root, args) => {
                     Db.models.product.destroy({where: args})
                         .then(() => {
-                            return true;
-                        })
-                        .catch((err) => {
-                            return false;
+                            return Db.models.lineItem.destroy({where: args});
                         });
+                }
+            },
+            createOrder: {
+                type: OrderGraphQLType,
+                description: "Create an order",
+                args: {
+                    shopId: {
+                        type: new GraphQLNonNull(GraphQLInt),
+                        description: "ID of the shop"
+                    },
+                    price: {
+                        type: new GraphQLNonNull(GraphQLFloat),
+                        description: "Price of the product"
+                    }
+                }
+            },
+            deleteOrder: {
+                type: OrderGraphQLType,
+                description: "Delete an order",
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLInt),
+                        description: "ID"
+                    }
+                },
+                resolve: (root, args) => {
+                    return Db.models.order.destroy({where: args});
+                }
+            },
+            createLineItem: {
+                type: LineItemGraphQLType,
+                description: "Create a line item",
+                args: {
+                    productId: {
+                        type: new GraphQLNonNull(GraphQLInt),
+                        description: "The ID of the product this line item refers to"
+                    },
+                    orderId: {
+                        type: new GraphQLNonNull(GraphQLInt),
+                        description: "The ID of the order this line item belongs to"
+                    },
+                    quantity: {
+                        type: new GraphQLNonNull(GraphQLString),
+                        description: "Number of this line item"
+                    },
+                    price: {
+                        type: new GraphQLNonNull(GraphQLFloat),
+                        description: "Price of the line item"
+                    }
+                },
+                resolve: (root, args) => {
+                    Db.models.lineItem.create({
+                        productId: args.productId,
+                        orderId: args.orderId,
+                        quantity: args.quantity,
+                        price: args.price
+                    });
+                }
+            },
+            deleteLineItem: {
+                type: LineItemGraphQLType,
+                description: "Delete a Line Item",
+                args: {
+                    id: {
+                        type: new GraphQLNonNull(GraphQLInt),
+                        description: "ID of the line item to delete"
+                    }
+                },
+                resolve: (root, args) => {
+                    return Db.models.lineItem.destroy({where: args});
                 }
             }
         };
