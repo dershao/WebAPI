@@ -1,0 +1,69 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "",
+  "Parameters": {
+    "KeyName": {
+      "Description": "EC2 Instance SSH Key",
+      "Type": "String"
+    },
+    "InstanceType": {
+      "Description": "EC2 instance configuration",
+      "Type": "String",
+      "Default": "t2.micro"
+    }
+  },
+  "Mappings": {
+    "AMIs": {
+      "us-west-2": {
+        "Name": "ami-0d1000aff9a9bad89"
+      }
+    }
+  },
+  "Resources": {
+    "Server": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "ImageId": {
+          "Fn::FindInMap": [
+            "AMIs",
+            {
+              "Ref": "AWS::Region"
+            },
+            "Name"
+          ]
+        },
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "SecurityGroupIds": [
+          {
+            "Ref": "SecurityGroup"
+          }
+        ]
+      }
+    },
+    "SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Allows for SSH and HTTP access from any host",
+        "SecurityGroupIngress": [
+          {
+            "FromPort": "22",
+            "ToPort": "22",
+            "IpProtocol": "tcp",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "FromPort": "80",
+            "ToPort": "80",
+            "IpProtocol": "tcp",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      }
+    }
+  }
+}
