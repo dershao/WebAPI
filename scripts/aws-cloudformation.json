@@ -42,7 +42,47 @@
           {
             "Ref": "SecurityGroup"
           }
-        ]
+        ],
+        "UserData": { "Fn::Base64": { "Fn::Join": ["", [
+          "#!/bin/bash -xe\n",
+          "yum install -y aws-cfn-bootstrap\n",
+          "/opt/aws/bin/cfn-init -v ",
+          "         --stack ", { "Ref": "AWS::StackName" },
+          "         --resource Server",
+          "         --configsets configure_docker",
+          "         --region ", { "Ref": "AWS::Region" }, "\n"
+        ]]}}
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Init": {
+          "configSets": {
+            "configure_docker": ["configure_docker"]
+          },
+          "configure_docker": {
+            "files": {
+              "/tmp/docker-setup.sh": {
+                "content": { "Fn::Join": ["", [
+                  "#!/bin/bash\n",
+                  "usermod -aG docker ec2-user\n",
+                  "dockerd"
+                ]]},
+                "mode": "000755",
+                "owner": "root",
+                "group": "root"
+              }
+            },
+            "commands": {
+              "add_docker_group": {
+                "command": "sh /tmp/docker-setup.sh"
+              }
+            },
+            "packages": {
+              "yum": {
+                "docker": []
+              }
+            }
+          }
+        }
       }
     },
     "SecurityGroup": {
