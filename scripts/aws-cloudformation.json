@@ -4,7 +4,7 @@
   "Parameters": {
     "KeyName": {
       "Description": "EC2 Instance SSH Key",
-      "Type": "String"
+      "Type": "AWS::EC2::KeyPair::KeyName"
     },
     "InstanceType": {
       "Description": "EC2 instance configuration",
@@ -13,18 +13,25 @@
     },
     "VPC": {
       "Description": "ID of the VPC",
-      "Type": "String",
-      "Default": "vpc-04fab486f9291aea7"
+      "Type": "String"
     },
     "RDSSubnets": {
-      "Description": "Private subnet",
-      "Type": "CommaDelimitedList",
-      "Default": "subnet-0c3b04605158f51b7, subnet-048b10be9f79cfbbe"
+      "Description": "Subnets for RDS in different regions",
+      "Type": "CommaDelimitedList"
     }, 
     "PublicSubnet": {
-      "Description": "Public subnet",
+      "Description": "Public subnet for EC2 instance",
+      "Type": "String"
+    },
+    "DbUser": {
+      "Description": "User for RDS",
       "Type": "String",
-      "Default": "subnet-05944e4d75b6c4e7a"
+      "NoEcho": true
+    },
+    "DbPassword": {
+      "Description": "Password for RDS",
+      "Type": "String",
+      "NoEcho": true
     }
   },
   "Mappings": {
@@ -116,8 +123,8 @@
         "Engine": "MySQL",
         "DBInstanceClass": "db.t2.micro",
         "AllocatedStorage": 5,
-        "MasterUsername": "master",
-        "MasterUserPassword": "masterpassword",
+        "MasterUsername": {"Ref": "DbUser"},
+        "MasterUserPassword": {"Ref": "DbPassword"},
         "PubliclyAccessible": true
       }
     },
