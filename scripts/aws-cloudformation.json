@@ -32,6 +32,14 @@
       "Description": "Password for RDS",
       "Type": "String",
       "NoEcho": true
+    },
+    "ServerIAMRole": {
+      "Description": "IAM role for server",
+      "Type": "String"
+    },
+    "DockerRepoParameter": {
+      "Description": "Docker Repository for web api docker image",
+      "Type": "String"
     }
   },
   "Mappings": {
@@ -81,7 +89,7 @@
       "Metadata": {
         "AWS::CloudFormation::Init": {
           "configSets": {
-            "configure_docker": ["configure_docker"]
+            "startup": ["configure_docker", "build_server_container"]
           },
           "configure_docker": {
             "files": {
@@ -89,7 +97,7 @@
                 "content": { "Fn::Join": ["", [
                   "#!/bin/bash\n",
                   "usermod -aG docker ec2-user\n",
-                  "dockerd"
+                  "systemctl start docker"
                 ]]},
                 "mode": "000755",
                 "owner": "root",
@@ -105,6 +113,18 @@
               "yum": {
                 "docker": [],
                 "mysql": []
+              }
+            }
+          },
+          "build_server_container": {
+            "files": {
+              "/tmp/build_server.sh": {
+                "content": { "Fn::Join": ["", [
+                  "#!/bin/bash\n",
+                  "$(aws ecr get-login --no-include-email --region us-west-2)\n",
+                  "docker pull ", { "Ref": "DockerRepoParameter"}, "\n",
+                  "docker run -d -p 80:80 ", { "Ref": "DockerRepoParameter"}, "\n"
+                ]]}
               }
             }
           }
