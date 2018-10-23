@@ -5,9 +5,9 @@ EXPOSE 8080
 
 WORKDIR /app
 
-COPY . .
+COPY . /app
 RUN npm install --production \ 
 	&& npm run build \ 
-	&& rm -rf /src
+	&& rm -rf ./src
 
-CMD ["node", "dist/App.js"]
+CMD ["node", "dist/app.js"]
