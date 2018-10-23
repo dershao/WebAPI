@@ -33,9 +33,14 @@
       "Type": "String",
       "NoEcho": true
     },
-    "ServerIAMRole": {
-      "Description": "IAM role for server",
+    "ServerIAMInstanceProfile": {
+      "Description": "IAM instance profile for server",
       "Type": "String"
+    },
+    "ServerResource": {
+      "Descrition": "Name of the main server resource",
+      "Type": "String",
+      "Default": "Server"
     },
     "DockerRepoParameter": {
       "Description": "Docker Repository for web api docker image",
@@ -68,6 +73,9 @@
         "KeyName": {
           "Ref": "KeyName"
         },
+        "IamInstanceProfile": {
+          "Ref": "ServerIAMInstanceProfile"
+        },
         "SecurityGroupIds": [
           {
             "Ref": "ServerSecurityGroup"
@@ -81,7 +89,7 @@
           "yum install -y aws-cfn-bootstrap\n",
           "/opt/aws/bin/cfn-init -v ",
           "         --stack ", { "Ref": "AWS::StackName" },
-          "         --resource Server",
+          "         --resource ", { "Ref": "ServerResource"},  
           "         --configsets configure_docker",
           "         --region ", { "Ref": "AWS::Region" }, "\n"
         ]]}}
