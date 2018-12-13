@@ -1,7 +1,7 @@
 {
-  "name": "shopify-developer-intern-winter-2019",
+  "name": "WebAPI",
   "version": "1.0.0",
-  "description": "Shopify Developer Intern challenge.",
+  "description": "Node.js and GraphQL web api",
   "main": "app.js",
   "scripts": {
     "build": "tsc",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dershao/Shopify-Developer-Intern-Winter-2019.git"
+    "url": "git+https://github.com/dershao/WebAPI.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dershao/Shopify-Developer-Intern-Winter-2019/issues"
+    "url": "https://github.com/dershao/WebAPI/issues"
   },
-  "homepage": "https://github.com/dershao/Shopify-Developer-Intern-Winter-2019#readme",
+  "homepage": "https://github.com/dershao/WebAPI#readme",
   "dependencies": {
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
