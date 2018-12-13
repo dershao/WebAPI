@@ -1,3 +1,6 @@
+import loadenv = require("./utils/loadenv");
+loadenv.loadenv();
+
 import * as express from "express";
 import * as graphqlHTTP from "express-graphql";
 import graphQlSchemas from "./GraphQLSchemas";
@@ -13,11 +16,18 @@ DbConnect.getInstance().sync({force: true}).then(() => {
         id: 1,
         name: "we sell cookies"
     });
+}).then(() => {
+    return dbSchemas.product.create({
+        id: 1,
+        name: "cookies",
+        shopId: 1,
+        price: 3.50
+    });
 });
 
 app.use("/graphql", graphqlHTTP({
     schema: graphQlSchemas,
-    graphiql: true,
+    graphiql: process.env.NODE_ENV !== "production",
 }));
 
 app.listen(port, (err: Error) => {

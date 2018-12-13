@@ -17,9 +17,9 @@ const Query: GraphQLObjectType = new GraphQLObjectType({
             shop: {
                 type: new GraphQLList(ShopGraphQLType),
                 args: {
-                    id: {
-                        type: GraphQLInt,
-                        description: "Find a shop by id"
+                    name: {
+                        type: GraphQLString,
+                        description: "Name of the shop"
                     }
                 },
                 resolve(root, args) {

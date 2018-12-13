@@ -25,6 +25,9 @@ export class DbSchemaMap {
         this.product = DbInstance.define("product", ProductSchema);
         this.order = DbInstance.define("order", OrderSchema);
         this.shop = DbInstance.define("shop", ShopSchema);
+
+        this.product.belongsTo(this.shop);
+        this.shop.hasMany(this.product);
     }
 
     public static getInstance(): DbSchemaMap {
