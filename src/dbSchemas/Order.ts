@@ -9,7 +9,7 @@ const OrderSchema: Sequelize.DefineAttributes = {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    price: {
+    total: {
         type: Sequelize.FLOAT,
         allowNull: false,
     }

@@ -31,15 +31,9 @@ const LineItem: GraphQLObjectType = new GraphQLObjectType({
             quantity: {
                 type: new GraphQLNonNull(GraphQLInt),
                 resolve(item) {
-                    return item.name;
+                    return item.quantity;
                 }
-            },
-            price: {
-                type: new GraphQLNonNull(GraphQLFloat),
-                resolve(item) {
-                    return item.price;
-                }  
-            },
+            }
         };
     }
 });

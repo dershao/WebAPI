@@ -3,8 +3,10 @@ import {
     GraphQLInt, 
     GraphQLString,
     GraphQLNonNull,
-    GraphQLFloat 
+    GraphQLFloat,
+    GraphQLList 
 } from "graphql";
+import LineItem from "./LineItemGraphQLType";
 
 const Product: GraphQLObjectType = new GraphQLObjectType({
     name: "Product",
@@ -33,6 +35,13 @@ const Product: GraphQLObjectType = new GraphQLObjectType({
                 type: new GraphQLNonNull(GraphQLFloat),
                 resolve(product) {
                     return product.price;
+                }
+            },
+            lineItem: {
+                type: new GraphQLList(LineItem),
+                resolve(product) {
+                    
+                    return product.getLineItems();
                 }
             }
         };

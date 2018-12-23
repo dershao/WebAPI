@@ -40,11 +40,6 @@ const Query: GraphQLObjectType = new GraphQLObjectType({
                 },
                 resolve(root, args) {
 
-                    Db.models.product.findAll({where: args})
-                        .then((data) => {
-                            console.log(data);
-                        });
-
                     return Db.models.product.findAll({where: args});
                 }
             },
@@ -186,7 +181,7 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                         type: new GraphQLNonNull(GraphQLInt),
                         description: "ID of the shop"
                     },
-                    price: {
+                    total: {
                         type: new GraphQLNonNull(GraphQLFloat),
                         description: "Price of the product"
                     }
@@ -194,7 +189,7 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                 resolve: (root, args) => {
                     return Db.models.order.create({
                        shopId: args.shopId,
-                       price: args.price 
+                       total: args.total
                     });
                 }
             },
@@ -224,20 +219,15 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                         description: "The ID of the order this line item belongs to"
                     },
                     quantity: {
-                        type: new GraphQLNonNull(GraphQLString),
+                        type: new GraphQLNonNull(GraphQLInt),
                         description: "Number of this line item"
-                    },
-                    price: {
-                        type: new GraphQLNonNull(GraphQLFloat),
-                        description: "Price of the line item"
                     }
                 },
                 resolve: (root, args) => {
-                    Db.models.lineItem.create({
+                    return Db.models.lineItem.create({
                         productId: args.productId,
                         orderId: args.orderId,
                         quantity: args.quantity,
-                        price: args.price
                     });
                 }
             },

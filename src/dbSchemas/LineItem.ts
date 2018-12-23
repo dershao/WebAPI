@@ -1,6 +1,10 @@
 import * as Sequelize from "sequelize";
 
 const LineItemSchema: Sequelize.DefineAttributes = {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true
+    },
     productId: {
         type: Sequelize.INTEGER,
         allowNull: false
@@ -12,10 +16,6 @@ const LineItemSchema: Sequelize.DefineAttributes = {
     quantity: {
         type: Sequelize.INTEGER,
         allowNull: false
-    },
-    price: {
-        type: Sequelize.FLOAT,
-        allowNull: false,
     }
 };
 

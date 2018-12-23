@@ -2,7 +2,9 @@ import {
     GraphQLObjectType, 
     GraphQLInt,
     GraphQLNonNull,
+    GraphQLList,
 } from "graphql";
+import LineItem from "./LineItemGraphQLType";
 
 const Order: GraphQLObjectType = new GraphQLObjectType({
     name: "Order",
@@ -21,11 +23,18 @@ const Order: GraphQLObjectType = new GraphQLObjectType({
                     return order.shopId;
                 }
             },
-            price: {
+            total: {
                 type: new GraphQLNonNull(GraphQLInt),
                 resolve(order) {
-                    return order.price;
+                    return order.total;
                 }  
+            },
+            lineItem: {
+                type: new GraphQLList(LineItem),
+                resolve(order) {
+                    
+                    return order.getLineItems();
+                }
             }
         };
     }
