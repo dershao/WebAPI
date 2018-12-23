@@ -190,6 +190,12 @@ const Mutation: GraphQLObjectType = new GraphQLObjectType({
                         type: new GraphQLNonNull(GraphQLFloat),
                         description: "Price of the product"
                     }
+                },
+                resolve: (root, args) => {
+                    return Db.models.order.create({
+                       shopId: args.shopId,
+                       price: args.price 
+                    });
                 }
             },
             deleteOrder: {

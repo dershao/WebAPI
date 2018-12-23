@@ -6,6 +6,7 @@ import {
     GraphQLList
 } from "graphql";
 import Product from "./ProductGraphQLType";
+import Order from "./OrderGraphQLType";
 
 const Shop: GraphQLObjectType = new GraphQLObjectType({
     name: "Shop",
@@ -29,6 +30,13 @@ const Shop: GraphQLObjectType = new GraphQLObjectType({
                 resolve(shop) {
 
                     return shop.getProducts();
+                }
+            },
+            orders: {
+                type: new GraphQLList(Order),
+                resolve(shop) {
+                    
+                    return shop.getOrders();
                 }
             }
         };

@@ -28,6 +28,12 @@ export class DbSchemaMap {
 
         this.product.belongsTo(this.shop);
         this.shop.hasMany(this.product);
+    
+        this.shop.hasMany(this.order);
+
+        this.order.hasMany(this.lineItem);
+        this.product.hasMany(this.lineItem);
+
     }
 
     public static getInstance(): DbSchemaMap {
